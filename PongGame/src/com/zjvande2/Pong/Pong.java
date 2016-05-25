@@ -1,8 +1,10 @@
 package com.zjvande2.Pong;
 
+import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferStrategy;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import Input.Keyboard;
@@ -12,7 +14,7 @@ import Input.Keyboard;
  * @author Jason Vanderslice Pong Main Class 5/25/16
  *
  */
-public class Pong extends JComponent implements Runnable {
+public class Pong extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,12 +31,12 @@ public class Pong extends JComponent implements Runnable {
 	private Paddle paddle1;
 
 	public Pong() {
-		paddle1 = new Paddle(0, 0, WIDTH / 50, HEIGHT / 10);
-		
+		paddle1 = new Paddle(10, 0, WIDTH / 50, HEIGHT / 10);
+
 		key = new Keyboard();
 		// Paddle paddle2 = new Paddle();
 		// setBackground(Color.black);
-		
+
 		addKeyListener(key);
 	}
 
@@ -44,7 +46,6 @@ public class Pong extends JComponent implements Runnable {
 		// pong.canvas = new Canvas(); // Initialize Canvas
 		pong.frame = new JFrame(); // Initialize JFrame
 
-		
 		pong.frame.setResizable(false);
 		pong.frame.setTitle(TITLE);
 		pong.frame.add(pong);
@@ -57,12 +58,12 @@ public class Pong extends JComponent implements Runnable {
 		pong.start();
 	}
 
-	private void start() {
+	public synchronized void start() {
 		if (running) {
 			return;
 		} else {
 			running = true;
-			thread = new Thread(this);
+			thread = new Thread(this, "Game");
 			thread.start();
 
 		}
@@ -89,6 +90,7 @@ public class Pong extends JComponent implements Runnable {
 				delta--;
 			}
 
+			render();
 			frames++;
 
 			if (System.currentTimeMillis() - timer > 1000) {
@@ -103,23 +105,39 @@ public class Pong extends JComponent implements Runnable {
 	}
 
 	public void update() {
+		boolean canMove = false;
 		int p1y = 0;
-		//int p2y = 0;
+		
+		// int p2y = 0;
 		key.update();
-		//System.out.println("Game updated");
+		
+		
 		if (key.upp1) {
-			System.out.println("we have pressed the key");
-			paddle1.setY(p1y + 1);
-		}
+			paddle1.setY(p1y - 1);
+					}
 
+		if (key.downp1) {
+			paddle1.setY(p1y + 1);
+			
+		}
 	}
 
-	public void paint(Graphics g) {
-		// drawing player1
-		g.drawRect(paddle1.getX(), paddle1.getY(), paddle1.getSizeX(), paddle1.getSizeY());
+	int x = 0;
+	int y = 0;
+	public void render() {
+		BufferStrategy bs = getBufferStrategy();
+		if (bs == null) {
+			createBufferStrategy(2);
+			return;
+		}
 
-		
-		// draw p2
+		Graphics g = bs.getDrawGraphics();
+		//Rectangle test;
+		//test = new Rectangle(10, 10, 10, 10);
+		paddle1.move(g);
+
 		g.dispose();
+		bs.show();
+
 	}
 }
