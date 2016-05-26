@@ -31,19 +31,17 @@ public class Pong extends Canvas implements Runnable {
 	private Paddle paddle1;
 
 	public Pong() {
-		paddle1 = new Paddle(10, 0, WIDTH / 50, HEIGHT / 10);
-
+		paddle1 = new Paddle(10, 10, WIDTH / 50, HEIGHT / 10);
+		paddle1.getInfo();
+		
+		
 		key = new Keyboard();
-		// Paddle paddle2 = new Paddle();
-		// setBackground(Color.black);
-
 		addKeyListener(key);
 	}
 
 	public static void main(String[] args) {
 		Pong pong = new Pong(); // Initialize Game Constructor
 
-		// pong.canvas = new Canvas(); // Initialize Canvas
 		pong.frame = new JFrame(); // Initialize JFrame
 
 		pong.frame.setResizable(false);
@@ -105,19 +103,19 @@ public class Pong extends Canvas implements Runnable {
 	}
 
 	public void update() {
-		boolean canMove = false;
 		int p1y = 0;
+		int moveSpeed  = 10;
 		
 		// int p2y = 0;
 		key.update();
 		
 		
 		if (key.upp1) {
-			paddle1.setY(p1y - 1);
+			paddle1.setY(p1y - moveSpeed);
 					}
 
 		if (key.downp1) {
-			paddle1.setY(p1y + 1);
+			paddle1.setY(p1y + moveSpeed);
 			
 		}
 	}

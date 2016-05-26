@@ -9,12 +9,9 @@ public class Paddle {
 	public int paddleSizeX; //
 	public int paddleSizeY; //
 
-	private Paddle blankSpaceT;
-	private Paddle blankSpaceB;
-	
-	//private Paddle blankSpaceP2T;
-	//private Paddle blankSpaceP2B;
-	
+	// private Paddle blankSpaceP2T;
+	// private Paddle blankSpaceP2B;
+
 	public Paddle(int x, int y, int sizeX, int sizeY) {
 		this.x = x;
 		this.y = y;
@@ -32,11 +29,11 @@ public class Paddle {
 		return this.y;
 	}
 
-	public int getSizeX() {
+	public int getXSize() {
 		return paddleSizeX;
 	}
 
-	public int getSizeY() {
+	public int getYSize() {
 		return paddleSizeY;
 	}
 
@@ -45,16 +42,26 @@ public class Paddle {
 	}
 
 	public void move(Graphics g) {
-		
-		g.fillRect(this.getXPos(), this.getYPos(), this.getSizeX(), this.getSizeY());
-		clearOldRect(g);
+
+		clearOldTop(g);
+		clearOldBottem(g);
+		g.fillRect(this.getXPos(), this.getYPos(), this.getXSize(), this.getYSize());
+
 	}
 
-	public void clearOldRect(Graphics g) {
-		//for the top of the paddle
-		g.clearRect(getXPos(), getYPos() - getSizeY(), getSizeX(), getSizeY());
-		
-		//for the bottom of the paddle
-		g.clearRect(getXPos(), getYPos() , getSizeX(), getYPos() - getSizeY());
+	public void clearOldBottem(Graphics g) {
+		int topBlank = Pong.HEIGHT - (Pong.HEIGHT - getYPos());
+		int bottemBlank = Pong.HEIGHT - (topBlank + getYSize());
+		g.clearRect(getXPos(), Pong.HEIGHT, getXSize(), bottemBlank);
+	}
+
+	public void clearOldTop(Graphics g) {
+		int topBlank = Pong.HEIGHT - (Pong.HEIGHT - getYPos());
+		g.clearRect(getXPos(), 0, getXSize(), topBlank);
+
+	}
+
+	public void getInfo() {
+		System.out.println("Paddle XPOS: " + getXPos() + " Paddle YPOS: " + getYPos() + ", XSize: " + getXSize() + ", YSIZE: " + getYSize());
 	}
 }
