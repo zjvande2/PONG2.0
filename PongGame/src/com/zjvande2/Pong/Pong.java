@@ -2,12 +2,11 @@ package com.zjvande2.Pong;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
-import Input.Keyboard;
+import com.zjvande2.input.Keyboard;
 
 /**
  * 

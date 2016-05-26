@@ -1,4 +1,4 @@
-package Input;
+package com.zjvande2.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
