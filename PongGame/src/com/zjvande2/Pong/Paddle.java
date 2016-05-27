@@ -1,23 +1,24 @@
 package com.zjvande2.Pong;
 
 import java.awt.Graphics;
+
 /***
  * 
- * @author Jason Vanderslice
- * Creates the Paddle and calculates the graphics associated in moving it.
+ * @author Jason Vanderslice Creates the Paddle and calculates the graphics
+ *         associated in moving it.
  *
  */
 public class Paddle {
 
-	public int paddleSizeX; //
-	public int paddleSizeY; //
-	
-	private int x;
-	private int y;
+	public int paddleSizeX = 0; //
+	public int paddleSizeY = 0; //
 
-	private int topBlank;
-	private int bottemBlank;
-	
+	private int x = 0;
+	private int y = 0;
+
+	private int topBlank = 0;
+	private int bottemBlank = 0;
+
 	// private Paddle blankSpaceP2T;
 	// private Paddle blankSpaceP2B;
 
@@ -46,36 +47,65 @@ public class Paddle {
 		return paddleSizeY;
 	}
 
-	//Calculates and returns the current position of the bottem left corner of the paddle
+	// Calculates and returns the current position of the bottem left corner of
+	// the paddle
 	public int getBottemOfPaddlePos() {
 		int bottemOfPad = this.topBlank + this.getYSize();
 		return bottemOfPad;
 	}
-	
-	public void setY(int y) {
+
+	public void moveY(int y) {
 		this.y += y;
 	}
 
-	public void move(Graphics g) {
-		//Calls the ClearArea Method to clear thse positions above and below the paddle
-		g.fillRect(this.getXPos(), this.getYPos(), this.getXSize(), this.getYSize());
-		clearArea(g);
+	public void setYPos(int y) {
+		this.y = y;
 	}
 
-	
+	public void move(Graphics g) {
+		// Calls the ClearArea Method to clear the positions above and below the
+		// paddle
+		// System.out.println(this.getYPos() + this.getYSize() + " | " +
+		// Pong.HEIGHT);
+		if (canMove()) {
+			g.fillRect(getXPos(), getYPos(), getXSize(), getYSize());
+			clearArea(g);
+		} else {
+			return;
+		}
+
+	}
+
 	public void clearArea(Graphics g) {
 		this.topBlank = Pong.HEIGHT - (Pong.HEIGHT - this.getYPos());
 		this.bottemBlank = Pong.HEIGHT - (topBlank + this.getYSize());
-		
-		//Clear the top rectangle
+
+		// Clear the top rectangle
 		g.clearRect(this.getXPos(), 0, this.getXSize(), this.topBlank);
-		
-		//Clears the bottem of the rectangle
+
+		// Clears the bottem of the rectangle
 		g.clearRect(this.getXPos(), this.getBottemOfPaddlePos(), this.getXSize(), this.bottemBlank);
-			
+
 	}
 
-	public void getInfo() {
-		System.out.println("Paddle XPOS: " + getXPos() + " Paddle YPOS: " + getYPos() + ", XSize: " + getXSize() + ", YSIZE: " + getYSize());
+	public boolean canMove() {
+		if (this.getYPos() < 0) {
+			this.setYPos(0);
+			return false;
+
+		} else if (this.getYPos() + this.getYSize() >= (Pong.HEIGHT - 20)) {
+			int maxPos = Pong.HEIGHT - 20 - this.getYSize() - 2;
+			this.setYPos(maxPos);
+			return false;
+		} else {
+			return true;
+		}
 	}
+
+	public String getInfo() {
+		String paddleInfo = ("Paddle XPOS: " + this.getXPos() + " Paddle YPOS: " + this.getYPos() + ", XSize: "
+				+ this.getXSize() + ", YSIZE: " + this.getYSize());
+		return paddleInfo;
+	}
+
 }
