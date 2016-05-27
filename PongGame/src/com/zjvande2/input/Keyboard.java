@@ -2,7 +2,12 @@ package com.zjvande2.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+/***
+ * 
+ * @author Jason Vanderslice
+ * Creates a readable keyboard
+ *
+ */
 public class Keyboard implements KeyListener {
 	
 	private boolean[] keys = new boolean[120];

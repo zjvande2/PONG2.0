@@ -1,14 +1,23 @@
 package com.zjvande2.Pong;
 
 import java.awt.Graphics;
-
+/***
+ * 
+ * @author Jason Vanderslice
+ * Creates the Paddle and calculates the graphics associated in moving it.
+ *
+ */
 public class Paddle {
-	private int x;
-	private int y;
 
 	public int paddleSizeX; //
 	public int paddleSizeY; //
+	
+	private int x;
+	private int y;
 
+	private int topBlank;
+	private int bottemBlank;
+	
 	// private Paddle blankSpaceP2T;
 	// private Paddle blankSpaceP2B;
 
@@ -37,28 +46,33 @@ public class Paddle {
 		return paddleSizeY;
 	}
 
+	//Calculates and returns the current position of the bottem left corner of the paddle
+	public int getBottemOfPaddlePos() {
+		int bottemOfPad = this.topBlank + this.getYSize();
+		return bottemOfPad;
+	}
+	
 	public void setY(int y) {
 		this.y += y;
 	}
 
 	public void move(Graphics g) {
-
-		clearOldTop(g);
-		clearOldBottem(g);
+		//Calls the ClearArea Method to clear thse positions above and below the paddle
 		g.fillRect(this.getXPos(), this.getYPos(), this.getXSize(), this.getYSize());
-
+		clearArea(g);
 	}
 
-	public void clearOldBottem(Graphics g) {
-		int topBlank = Pong.HEIGHT - (Pong.HEIGHT - getYPos());
-		int bottemBlank = Pong.HEIGHT - (topBlank + getYSize());
-		g.clearRect(getXPos(), Pong.HEIGHT, getXSize(), bottemBlank);
-	}
-
-	public void clearOldTop(Graphics g) {
-		int topBlank = Pong.HEIGHT - (Pong.HEIGHT - getYPos());
-		g.clearRect(getXPos(), 0, getXSize(), topBlank);
-
+	
+	public void clearArea(Graphics g) {
+		this.topBlank = Pong.HEIGHT - (Pong.HEIGHT - this.getYPos());
+		this.bottemBlank = Pong.HEIGHT - (topBlank + this.getYSize());
+		
+		//Clear the top rectangle
+		g.clearRect(this.getXPos(), 0, this.getXSize(), this.topBlank);
+		
+		//Clears the bottem of the rectangle
+		g.clearRect(this.getXPos(), this.getBottemOfPaddlePos(), this.getXSize(), this.bottemBlank);
+			
 	}
 
 	public void getInfo() {

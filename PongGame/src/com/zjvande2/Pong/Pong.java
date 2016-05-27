@@ -6,6 +6,8 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
+import com.zjvande2.console.Console;
+import com.zjvande2.graphics.Screen;
 import com.zjvande2.input.Keyboard;
 
 /**
@@ -20,20 +22,25 @@ public class Pong extends Canvas implements Runnable {
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = WIDTH / 16 * 9;
 	public static String TITLE = "PONG";
-
-	private JFrame frame;
-
+	
 	private boolean running = false;
+	
+	public Game game;
+	
+	private JFrame frame;
 	private Thread thread;
 	private Keyboard key;
-
-	private Paddle paddle1;
-
+	private Screen screen;
+	private Console console;
+	
+	
 	public Pong() {
-		paddle1 = new Paddle(10, 10, WIDTH / 50, HEIGHT / 10);
-		paddle1.getInfo();
+		console = new Console();
+		game = new Game();
+		screen = new Screen(game);
+		game.CreatePaddles();
 		
-		
+
 		key = new Keyboard();
 		addKeyListener(key);
 	}
@@ -103,38 +110,37 @@ public class Pong extends Canvas implements Runnable {
 
 	public void update() {
 		int p1y = 0;
-		int moveSpeed  = 10;
+		int moveSpeed = 10;
+		int p2y = 0;
 		
-		// int p2y = 0;
 		key.update();
-		
-		
 		if (key.upp1) {
-			paddle1.setY(p1y - moveSpeed);
-					}
-
-		if (key.downp1) {
-			paddle1.setY(p1y + moveSpeed);
-			
+			game.paddle1.setY(p1y - moveSpeed);
 		}
+		if (key.downp1) {
+			game.paddle1.setY(p1y + moveSpeed);
+		}
+		if (key.upp2) {
+			game.paddle2.setY(p2y - moveSpeed);
+		}
+		if (key.downp2) {
+			game.paddle2.setY(p2y + moveSpeed);
+		}
+		
 	}
 
-	int x = 0;
-	int y = 0;
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
 			createBufferStrategy(2);
 			return;
 		}
-
 		Graphics g = bs.getDrawGraphics();
-		//Rectangle test;
-		//test = new Rectangle(10, 10, 10, 10);
-		paddle1.move(g);
-
+		
+		screen.renderPaddles(g);
+		screen.renderMap(g);
+		
 		g.dispose();
 		bs.show();
-
 	}
 }
