@@ -120,7 +120,7 @@ public class Pong extends Canvas implements Runnable {
 		
 		game.paddle1.move(g);
 		game.paddle2.move(g);
-		game.ball.move(g);
+		game.ball.drawBall(g);
 
 		screen.renderMap(g);
 		

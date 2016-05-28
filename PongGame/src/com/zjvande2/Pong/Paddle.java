@@ -64,9 +64,6 @@ public class Paddle {
 
 	public void move(Graphics g) {
 		// Calls the ClearArea Method to clear the positions above and below the
-		// paddle
-		// System.out.println(this.getYPos() + this.getYSize() + " | " +
-		// Pong.HEIGHT);
 		if (canMove()) {
 			g.fillRect(getXPos(), getYPos(), getXSize(), getYSize());
 			clearArea(g);
@@ -83,7 +80,7 @@ public class Paddle {
 		// Clear the top rectangle
 		g.clearRect(this.getXPos(), 0, this.getXSize(), this.topBlank);
 
-		// Clears the bottem of the rectangle
+		// Clears the bottom of the rectangle
 		g.clearRect(this.getXPos(), this.getBottemOfPaddlePos(), this.getXSize(), this.bottemBlank);
 
 	}

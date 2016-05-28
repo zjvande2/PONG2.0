@@ -2,20 +2,21 @@ package com.zjvande2.Pong;
 
 import java.awt.Graphics;
 
-public class Ball extends Game {
+public class Ball {
 	private int xSize;
 	private int ySize;
 	private int xPos;
 	private int yPos;
-	private int angleStart;
-	private int angleEnd;
+
 	private int ballSpeed;
 
-	public Ball(int x, int y, int xp, int yp, int bs) {
-		this.xSize = x;
-		this.ySize = y;
-		this.xPos = xp;
-		this.yPos = yp;
+	private boolean wasInit = false;
+	
+	public Ball(int x, int y, int xs, int ys, int bs) {
+		this.xPos = x;
+		this.yPos = y;
+		this.xSize = xs;
+		this.ySize = ys;
 		this.ballSpeed = bs;
 
 	}
@@ -53,7 +54,32 @@ public class Ball extends Game {
 		return ballInfo;
 	}
 
-	public void move(Graphics g) {
-		g.drawArc(getXPos(), getYPos(), getXSize(), getYSize(), angleStart, angleEnd);
+	public void drawBall(Graphics g) {
+		g.fillArc(getXPos(), getYPos(), getXSize(), getYSize(), 0, 360);
+		drawCollider(true, g);
+
+		if (!wasInit) {
+			initMoving(g);
+			wasInit = true;
+		} else {
+			moveBall(g);
+		}
+	}
+
+	public void initMoving(Graphics g) {
+		g.fillArc(this.getXPos() + this.getMoveSpeed(), this.getYPos() + this.getMoveSpeed(), this.getXSize(), this.getYSize(), 0, 360);
+	}
+
+	public void moveBall(Graphics g) {
+		g.fillArc(getXPos() + getMoveSpeed(), getYPos() + getMoveSpeed(), getXSize(), getYSize(), 0, 360);
+	}
+
+	public void drawCollider(boolean draw, Graphics g) {
+		if (draw) {
+			g.drawRect(getXPos(), getYPos(), getXSize(), getYSize());
+		} else {
+			return;
+
+		}
 	}
 }
